@@ -4,7 +4,7 @@
 library(LEA)
 library(raster)
 library(data.table)
-#library(plot3D)
+library(plot3D)
 library(tess3r)
 library(maps)
 
@@ -116,7 +116,7 @@ Xsc <- Xsc[,seq(1, ncol(Xsc), by = 2)]
  
  lag_26 <- lag["offset",]
  ind_pop <- sapply(pop, function(x) which(unique(pop) == x))
- qq <- lag[ind_pop]
+ qq <- lag_26[ind_pop]
  qq <- cbind(qq,qq)
  class(qq) <- "tess3Q"
  my.colors <- c("blue3", "blue3")
