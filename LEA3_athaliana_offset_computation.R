@@ -1,6 +1,12 @@
 ## LEA 3
 ## Computation of genetic offsets 
 
+#install LEA
+#devtools::install_github("bcm-uga/LEA")
+
+#install tess3r
+#devtools::install_github("bcm-uga/tess3r")
+
 library(LEA)
 library(raster)
 library(data.table)
@@ -18,7 +24,6 @@ Xsc <- fread("athaliana_scandinavie/geno_scandinavie.lfmm", head = FALSE)
 ## Filter SNPs
 lst.unique <- apply(Xsc, 2, function(x) length(unique(x)))
 Xsc <- as.matrix(Xsc)[, lst.unique == 2]
-
 
 ## Get current and future bioclimatic variables
 temp <- getData('worldclim', res = 5, var = "bio")
@@ -100,21 +105,17 @@ Xsc <- Xsc[,seq(1, ncol(Xsc), by = 2)]
         cex.clab = 1,
         cex.axis = 1)
  
-## Run lfmm2 with K = 4 latent factors
- 
- mod2 <- lfmm2(input = Xsc, env = bio, K = 4)
- 
  
 ## Compute offsets for RCP 2.6
  
  pop <- meta_scand$cluster
- lag <- genetic.offset(mod2, 
-                       input = Xsc, 
+
+ lag <- genetic.offset(input = Xsc, 
                        env = bio, 
                        new.env = bio_fut_26, 
                        pop.labels = meta_scand$cluster)
  
- lag_26 <- lag["offset",]
+ lag_26 <- lag
  ind_pop <- sapply(pop, function(x) which(unique(pop) == x))
  qq <- lag_26[ind_pop]
  qq <- cbind(qq,qq)
@@ -148,13 +149,12 @@ Xsc <- Xsc[,seq(1, ncol(Xsc), by = 2)]
  
  pop <- meta_scand$cluster 
  
- lag <- genetic.offset(mod2, 
-                       input = Xsc, 
+ lag <- genetic.offset(input = Xsc, 
                        env = bio, 
                        new.env = bio_fut_45, 
                        pop.labels = pop)
  
- lag_45 <- lag["offset",]
+ lag_45 <- lag
  
  ind_pop <- sapply(pop, function(x) which(unique(pop) == x))
  
@@ -188,13 +188,12 @@ Xsc <- Xsc[,seq(1, ncol(Xsc), by = 2)]
  
  pop <- meta_scand$cluster 
  
- lag <- genetic.offset(mod2, 
-                       input = Xsc, 
+ lag <- genetic.offset(input = Xsc, 
                        env = bio, 
                        new.env = bio_fut_85, 
                        pop.labels = pop)
  
- lag_85 <- lag["offset",]
+ lag_85 <- lag
  
  ind_pop <- sapply(pop, function(x) which(unique(pop) == x))
  
