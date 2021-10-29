@@ -1,4 +1,4 @@
-## LEA 3
+## LEA 3.7.0
 ## Computation of genetic offsets 
 
 #install LEA
